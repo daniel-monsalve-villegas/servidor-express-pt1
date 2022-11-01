@@ -6,6 +6,10 @@ app.get('/api/products', (req, res) => {
 	res.json({ products });
 })
 
+app.listen(port, () => {
+  console.log('conectado');
+})
+
 app.get('/info', (req, res) => {
 	res.send(`<p>Our store has info for ${products.length} products
 	<h1>${date}<h1>`);
