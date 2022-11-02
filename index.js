@@ -37,11 +37,29 @@ app.get('/api/products/:id', (req, res) => {
   res.json(getId(req.params.id));
 })
 
-//Delete item from product
-app.delete('/api/products/delete/:id', (req, res) => {
+//Delete item from products
+app.delete('/api/products/:id', (req, res) => {
+  const productInfo = Object.keys(products);
 
+  const getId = (id) => {
+    let info = productInfo[id - 1];
+    delete products[info];
+  }
+  getId(req.params.id);
+  res.json(products);
 })
 
+//Put new item in products
+app.put('/api/products/', (req, res) => {
+  products = [...products, {
+    "id": Math.floor(Math.random() * 1000),
+    "title": "new element",
+    "price": 289003,
+    "description": "new description",
+    "images": [1, 2, 3]
+  }]
+  res.json(products);
+})
 
 const date = new Date();
 
@@ -85,7 +103,7 @@ const about = [
   }
 ]
 
-const products = [
+let products = [
   {
     "id": 1,
     "title": "new Title marcos",
