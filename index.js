@@ -1,6 +1,10 @@
 const express = require('express');
 const app = express();
 const port = 8080;
+const morgan = require('morgan');
+
+//morgan logs 
+app.use(morgan('tiny'));
 
 //Show products
 app.get('/api/products', (req, res) => {
@@ -51,13 +55,22 @@ app.delete('/api/products/:id', (req, res) => {
 
 //Put new item in products
 app.put('/api/products/', (req, res) => {
-  products = [...products, {
+  const anotherProduct = {
     "id": Math.floor(Math.random() * 1000),
     "title": "new element",
     "price": 289003,
     "description": "new description",
     "images": [1, 2, 3]
-  }]
+  }
+
+  for(props in products) {
+    let property = products[props];
+    if(anotherProduct.title === property.title || anotherProduct.title !== true || anotherProduct.price !== true) {
+      res.send('error: title must be unique');
+      res.status(304).end();
+    }
+  }
+  products = [...products, anotherProduct]
   res.json(products);
 })
 
